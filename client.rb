@@ -11,7 +11,6 @@ def post(conn, path, payload)
   end
 end
 
-
 conn = Faraday.new(url: base_url) do |c|
   c.use Faraday::Response::Logger
   c.use Faraday::Adapter::NetHttp
