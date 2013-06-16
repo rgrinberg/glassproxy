@@ -17,9 +17,15 @@ get '/' do
 end
 
 route :get, :post, :put, :delete, '/*' do
-  path = params[:splat]
-  logger.info("Recording path: '#{path}'")
-  request_json = JSON.parse request.body.read
-  requests.unshift({path: path, json: request_json})
+  begin
+    path = params[:splat]
+    logger.info("Recording path: '#{path}'")
+    body_s = request.body.read
+    request_json = JSON.parse body_s
+    requests.unshift({path: path, json: request_json})
+  rescue
+    requests.unshift({path: path, json: body_s})
+  end
+  "Added #{path}"
 end
 
