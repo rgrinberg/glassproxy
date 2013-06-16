@@ -1,14 +1,8 @@
 require 'sinatra'
 require 'json'
+require 'sinatra/multi_route'
 
 requests = []
-
-post '/*' do
-  path = params[:splat]
-  logger.info("Recording path: '#{path}'")
-  request_json = JSON.parse request.body.read
-  requests.unshift({path: path, json: request_json})
-end
 
 get '/last/:x' do |x|
   content_type :json
@@ -21,3 +15,11 @@ get '/' do
   logger.info("Fetch all entries")
   requests.to_json
 end
+
+route :get, :post, :put, :delete, '/*' do
+  path = params[:splat]
+  logger.info("Recording path: '#{path}'")
+  request_json = JSON.parse request.body.read
+  requests.unshift({path: path, json: request_json})
+end
+
