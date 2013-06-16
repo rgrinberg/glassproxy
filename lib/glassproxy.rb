@@ -17,6 +17,9 @@ get '/' do
 end
 
 route :get, :post, :put, :delete, '/*' do
+  fp = request.fullpath
+  logger.info("Fullpath: #{fp}")
+  return if fp == '/' || fp.empty? || fp == '/favicon.ico'
   begin
     path = params[:splat]
     logger.info("Recording path: '#{path}'")
