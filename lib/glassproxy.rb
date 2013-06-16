@@ -10,6 +10,10 @@ get '/last/:x' do |x|
   requests[0..x.to_i.pred].to_json
 end
 
+get '/clear' do
+  requests.clear
+end
+
 get '/' do
   content_type :json
   logger.info("Fetch all entries")
